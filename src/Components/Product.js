@@ -3,13 +3,17 @@ import React, { useEffect, useState } from "react";
 function Product(props) {
   const { name, description, price, image, id } = props;
   const [idToDelete, setidToDelete] = useState(0);
+  const [idToDeleteFromCart, setidToDeleteFromCart] = useState(0);
+  const [idToAdd, setidToAdd] = useState(0);
+  const [nbOfproduct, setnbOfproduct] = useState(0);
+  const [nbOfproductDisplay, setnbOfproductDisplay] = useState(4);
   const [isfirstUpdate, setisfirstUpdate] = useState(0);
   const [productToUpdate, setProductToUpdate] = useState({
-    name,
-    description,
-    price,
-    image,
-    id,
+    name: props.name,
+    description: props.description,
+    price: props.price,
+    image: props.image,
+    id: props.id,
   });
 
   //Get Image from folder
@@ -41,8 +45,22 @@ function Product(props) {
     }
   }, [idToDelete]);
 
+  //Fetch to delete a product
+  useEffect(() => {
+    if (idToAdd != 0) {
+      fetch("http://localhost:3001/add-product/" + idToAdd, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({ id: idToAdd }),
+      });
+    }
+  }, [idToAdd, nbOfproduct]);
+
   //Fetch to update a product
-  /*  useEffect(() => {
+  useEffect(() => {
     if (isfirstUpdate != 0) {
       fetch("http://localhost:3001/update-product", {
         headers: {
@@ -55,11 +73,37 @@ function Product(props) {
         .then((response) => {
           return response.json();
         })
-        .then((res) => {
-          console.log("mmm", res);
-        });
+        .then((res) => {});
     }
-  }, [productToUpdate]);*/
+  }, [productToUpdate]);
+
+  //Add a product in basket
+  useEffect(() => {
+    if (props.id != 0) {
+      fetch("http://localhost:3001/update-product/" + props.id, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({ nbOfProduct: nbOfproductDisplay }),
+      });
+    }
+  }, [nbOfproductDisplay]);
+
+  //Delete a product from basket
+  useEffect(() => {
+    if (props.id != 0) {
+      fetch("http://localhost:3001/update-product/" + props.id, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({ nbOfProduct: 0 }),
+      });
+    }
+  }, [idToDeleteFromCart]);
 
   return (
     <div className="card m-3">
@@ -79,7 +123,7 @@ function Product(props) {
                 className="col-6 input-without-border"
                 id="name"
                 name="name"
-                value={props.name}
+                value={productToUpdate.name}
                 onInput={(event) => {
                   setProductToUpdate({
                     ...productToUpdate,
@@ -90,20 +134,20 @@ function Product(props) {
             </h5>
             <p className="card-text">
               {
-                props.description /* <input
-                readonly={props.isAdmin}
-                type="text"
-                className="col-6 input-without-border"
-                id="description"
-                name="description"
-                value={props.description}
-                onChange={(event) => {
-                  setProductToUpdate({
-                    ...productToUpdate,
-                    description: event.target.value,
-                  });
-                }}
-              /> */
+                <input
+                  readonly={props.isAdmin}
+                  type="text"
+                  className="col-6 input-without-border"
+                  id="description"
+                  name="description"
+                  value={props.description}
+                  onChange={(event) => {
+                    setProductToUpdate({
+                      ...productToUpdate,
+                      description: event.target.value,
+                    });
+                  }}
+                />
               }
             </p>
             <p className="card-text">
@@ -124,11 +168,13 @@ function Product(props) {
             </p>
           </div>
           <div className="card-body text-margin">
-            {!props.isAdmin && (
+            {!props.isAdmin && !props.clickOnCart && (
               <button
-                type="button"
                 className="btn btn-lg btn-primary button-margin"
-                disabled
+                onClick={() => {
+                  setidToAdd(props.id);
+                  setnbOfproduct(nbOfproduct + 1);
+                }}
               >
                 Ajouter au panier
               </button>
@@ -144,18 +190,19 @@ function Product(props) {
                   name="id"
                   value={props.id}
                 />
-                {/* <button
-                  disabled
-                  type="button"
-                  className="btn btn-lg btn-primary button-margin"
-                  onClick={() => {
-                    setProductToUpdate({ ...productToUpdate });
-                    setisfirstUpdate(1);
-                  }}
-                >
-                  Mise à jour
-                </button> */}
                 {
+                  <button
+                    type="button"
+                    className="btn btn-lg btn-primary button-margin"
+                    onClick={() => {
+                      setProductToUpdate({ ...productToUpdate });
+                      setisfirstUpdate(1);
+                    }}
+                  >
+                    Mise à jour
+                  </button>
+                }
+                {props.isAdmin && (
                   <button
                     type="button"
                     className="btn btn btn-danger btn-lg button-margin"
@@ -165,8 +212,34 @@ function Product(props) {
                   >
                     Supprimer
                   </button>
-                }
+                )}
               </>
+            )}
+            {!props.isAdmin && props.clickOnCart && (
+              <div class="row">
+                <div class="col-4">
+                  <button
+                    type="button"
+                    className="btn btn btn-danger btn-lg button-margin"
+                    onClick={() => {
+                      setidToDeleteFromCart(props.id);
+                    }}
+                  >
+                    Supprimer du panier
+                  </button>
+                </div>
+                <div class="col-2 nb-of-product">
+                  <input
+                    className="form-control"
+                    id="nbOfProduct"
+                    name="nbOfProduct"
+                    value={nbOfproductDisplay}
+                    onChange={(event) => {
+                      setnbOfproductDisplay(event.target.value);
+                    }}
+                  />
+                </div>
+              </div>
             )}
           </div>
         </div>

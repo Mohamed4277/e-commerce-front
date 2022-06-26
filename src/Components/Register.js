@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
-function Login(props) {
+function Register(props) {
   const [isSubmit, setIsSubmit] = useState(false);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [page, setPage] = useState("/");
-  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [familyName, setFamilyName] = useState("");
   useEffect(() => {
     if (isSubmit) {
-      fetch("http://localhost:3001/login", {
+      fetch("http://localhost:3001/add-client", {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
         method: "POST",
         credentials: "include",
-        body: JSON.stringify({ name: name, password: password }),
+        body: JSON.stringify({
+          name: name,
+          familyName: familyName,
+          email: email,
+          password: password,
+        }),
       })
         .then((response) => {
           return response.json();
@@ -24,7 +28,6 @@ function Login(props) {
         .then((res) => {
           props.setIsAccess(res.isAccess);
           props.setIsAdmin(res.isAdmin);
-          setPage(res.isAdmin ? "Administration" : "Products");
         });
     }
   }, [isSubmit]);
@@ -36,20 +39,46 @@ function Login(props) {
         onSubmit={(event) => {
           event.preventDefault();
           setName(event.target.name.value);
+          setEmail(event.target.email.value);
           setPassword(event.target.password.value);
+          setFamilyName(event.target.familyName.value);
           setIsSubmit(true);
         }}
       >
         <div className="form-group text-margin">
           <label className="label-margin" htmlFor="name">
-            Name
+            Nom de Famille
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="familyName"
+            name="familyName"
+            placeholder="Nom de Famille"
+          />
+        </div>
+        <div className="form-group text-margin">
+          <label className="label-margin" htmlFor="name">
+            Prénom
           </label>
           <input
             type="text"
             className="form-control"
             id="name"
             name="name"
-            placeholder="Name"
+            placeholder="Prénom"
+          />
+        </div>
+        <div className="form-group text-margin">
+          <label className="label-margin" htmlFor="name">
+            email
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="email"
+            name="email"
+            placeholder="email"
           />
         </div>
         <div className="form-group text-margin">
@@ -64,33 +93,12 @@ function Login(props) {
             placeholder="Password"
           />
         </div>
-        {props.isAccess === false && (
-          <div className="pb-password">Mot de passe ou login erroné</div>
-        )}
-        <button
-          type="submit"
-          className="btn btn btn-danger btn-lg button-margin"
-          onClick={
-            props.isAccess &&
-            (() => {
-              navigate(page);
-            })
-          }
-        >
-          Log in
-        </button>
-        <button
-          type="submit"
-          className="btn btn btn-danger btn-lg button-margin"
-          onClick={() => {
-            navigate("/Register");
-          }}
-        >
-          Sign in
-        </button>
+        <div className="form-group text-margin">
+          <input type="submit" id="button" name="Test" />
+        </div>
       </form>
     </div>
   );
 }
 
-export default Login;
+export default Register;

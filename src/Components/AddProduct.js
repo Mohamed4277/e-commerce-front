@@ -18,7 +18,6 @@ function AddProduct(props) {
           return response.json();
         })
         .then((response) => {
-          console.log("***** rep", response);
           props.addProductToList({ ...productData, id: response.insertId });
         });
     }
