@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import TestStorage from "./TestStorage";
+import { useNavigate, Link } from "react-router-dom";
 
 function Register(props) {
   const [isSubmit, setIsSubmit] = useState(false);
@@ -6,6 +8,8 @@ function Register(props) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [familyName, setFamilyName] = useState("");
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (isSubmit) {
       fetch("http://localhost:3001/add-client", {
@@ -34,6 +38,7 @@ function Register(props) {
 
   return (
     <div className="container">
+      <TestStorage />
       <form
         className="form-margin"
         onSubmit={(event) => {
@@ -43,6 +48,7 @@ function Register(props) {
           setPassword(event.target.password.value);
           setFamilyName(event.target.familyName.value);
           setIsSubmit(true);
+          /*navigate("/");*/
         }}
       >
         <div className="form-group text-margin">
@@ -93,9 +99,13 @@ function Register(props) {
             placeholder="Password"
           />
         </div>
-        <div className="form-group text-margin">
-          <input type="submit" id="button" name="Test" />
-        </div>
+        <div className="form-group text-margin"></div>
+
+        <input type="submit" id="button" name="Test" />
+
+        {/* <button type="submit" className="btn btn-success btn-lg button-margin">
+          Sign up
+        </button> */}
       </form>
     </div>
   );

@@ -12,9 +12,35 @@
   width: 200px;
 }
 
+.nav-bar-style {
+  align-items: center;
+  background-color: lightgrey;
+  height: 100px;
+}
+
+.nav-bar-cart {
+  text-align: end;
+  margin-right: 20px;
+}
+
+.nav-bar-power {
+  margin-left: 10px;
+}
+
+.nav-bar-text {
+  color: white;
+  font-size: 40px;
+  text-align: center;
+}
+
 .text-margin {
   margin: 15px;
   margin-left: 0;
+}
+
+.button-order {
+  text-align: end;
+  margin-top: 70px;
 }
 
 .label-margin {
@@ -67,4 +93,20 @@ body {
   width: 10px;
   margin-left: 15px;
   padding: 10px;
+}
+
+.nav-power-color {
+  color: black;
+}
+
+.ordered-text {
+  text-align: center;
+  font-size: 45px;
+  color: red;
+  font-weight: bold;
+}
+
+.ordered-button {
+  text-align: center;
+  margin-top: 10px;
 }

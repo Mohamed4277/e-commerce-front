@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 
 function Product(props) {
   const { name, description, price, image, id } = props;
+  const [basket, setBaskets] = useState({});
   const [idToDelete, setidToDelete] = useState(0);
   const [idToDeleteFromCart, setidToDeleteFromCart] = useState(0);
   const [idToAdd, setidToAdd] = useState(0);
   const [nbOfproduct, setnbOfproduct] = useState(0);
-  const [nbOfproductDisplay, setnbOfproductDisplay] = useState(4);
+  const [nbOfproductDisplay, setnbOfproductDisplay] = useState(
+    props.nbOfProduct
+  );
   const [isfirstUpdate, setisfirstUpdate] = useState(0);
   const [productToUpdate, setProductToUpdate] = useState({
     name: props.name,
@@ -15,6 +18,8 @@ function Product(props) {
     image: props.image,
     id: props.id,
   });
+
+  const isAdminStorage = sessionStorage.getItem("isAdmin");
 
   //Get Image from folder
   function importAll(r) {
@@ -92,9 +97,10 @@ function Product(props) {
   }, [nbOfproductDisplay]);
 
   //Delete a product from basket
-  useEffect(() => {
+  /*useEffect(() => {
     if (props.id != 0) {
-      fetch("http://localhost:3001/update-product/" + props.id, {
+      console.log("delete a product");
+      fetch("http://localhost:3001/delete-product/" + props.id, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -103,7 +109,7 @@ function Product(props) {
         body: JSON.stringify({ nbOfProduct: 0 }),
       });
     }
-  }, [idToDeleteFromCart]);
+  }, [idToDeleteFromCart]);*/
 
   return (
     <div className="card m-3">
@@ -118,7 +124,7 @@ function Product(props) {
           <div className="card-body text-margin">
             <h5 className="card-title">
               <input
-                readonly={props.isAdmin}
+                readonly={!props.isAdmin}
                 type="text"
                 className="col-6 input-without-border"
                 id="name"
@@ -135,7 +141,7 @@ function Product(props) {
             <p className="card-text">
               {
                 <input
-                  readonly={props.isAdmin}
+                  readonly={!props.isAdmin}
                   type="text"
                   className="col-6 input-without-border"
                   id="description"
@@ -152,7 +158,7 @@ function Product(props) {
             </p>
             <p className="card-text">
               <input
-                readonly={props.isAdmin}
+                readonly={!props.isAdmin}
                 type="text"
                 className="col-6 input-without-border"
                 id="price"
@@ -174,6 +180,8 @@ function Product(props) {
                 onClick={() => {
                   setidToAdd(props.id);
                   setnbOfproduct(nbOfproduct + 1);
+                  let nbItemInBasket = props.nbItem + 1;
+                  props.setNbItem(nbItemInBasket);
                 }}
               >
                 Ajouter au panier
@@ -222,7 +230,8 @@ function Product(props) {
                     type="button"
                     className="btn btn btn-danger btn-lg button-margin"
                     onClick={() => {
-                      setidToDeleteFromCart(props.id);
+                      /* setidToDeleteFromCart(props.id);*/
+                      setnbOfproductDisplay(0);
                     }}
                   >
                     Supprimer du panier

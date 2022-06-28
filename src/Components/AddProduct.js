@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import TestStorage from "./TestStorage";
 
 function AddProduct(props) {
   const [productData, setProductData] = useState({});
@@ -25,6 +26,7 @@ function AddProduct(props) {
 
   return (
     <>
+      <TestStorage />
       <form
         className="form-margin"
         onSubmit={(event) => {

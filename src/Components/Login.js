@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Products from "./Products";
+import TestStorage from "./TestStorage";
 
 function Login(props) {
   const [isSubmit, setIsSubmit] = useState(false);
@@ -15,7 +17,8 @@ function Login(props) {
           "Content-Type": "application/json",
         },
         method: "POST",
-        credentials: "include",
+        /*credentials: "include",*/
+        credentials: "same-origin",
         body: JSON.stringify({ name: name, password: password }),
       })
         .then((response) => {
@@ -24,13 +27,18 @@ function Login(props) {
         .then((res) => {
           props.setIsAccess(res.isAccess);
           props.setIsAdmin(res.isAdmin);
+          sessionStorage.setItem("isAccess", res.isAccess);
+          sessionStorage.setItem("isAdmin", res.isAdmin);
+          props.setCookie("isAccess", res.isAccess);
           setPage(res.isAdmin ? "Administration" : "Products");
+          navigate(page);
         });
     }
   }, [isSubmit]);
 
   return (
     <div className="container">
+      <TestStorage />
       <form
         className="form-margin"
         onSubmit={(event) => {
@@ -38,6 +46,7 @@ function Login(props) {
           setName(event.target.name.value);
           setPassword(event.target.password.value);
           setIsSubmit(true);
+          navigate(page);
         }}
       >
         <div className="form-group text-margin">
@@ -70,12 +79,6 @@ function Login(props) {
         <button
           type="submit"
           className="btn btn btn-danger btn-lg button-margin"
-          onClick={
-            props.isAccess &&
-            (() => {
-              navigate(page);
-            })
-          }
         >
           Log in
         </button>
@@ -86,7 +89,7 @@ function Login(props) {
             navigate("/Register");
           }}
         >
-          Sign in
+          Sign up
         </button>
       </form>
     </div>
