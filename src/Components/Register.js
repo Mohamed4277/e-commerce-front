@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import TestStorage from "./TestStorage";
 import { useNavigate, Link } from "react-router-dom";
 
 function Register(props) {
@@ -38,7 +37,6 @@ function Register(props) {
 
   return (
     <div className="container">
-      <TestStorage />
       <form
         className="form-margin"
         onSubmit={(event) => {

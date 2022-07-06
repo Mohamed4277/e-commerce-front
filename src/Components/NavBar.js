@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Cart2, Power } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
-import TestStorage from "./TestStorage";
 
 function NavBar(props) {
   const [products, setProducts] = useState([]);
@@ -41,7 +40,6 @@ function NavBar(props) {
 
   return (
     <>
-      <TestStorage />
       <div class="row nav-bar-style">
         {isAccessStorage && (
           <div class="col nav-bar-power">

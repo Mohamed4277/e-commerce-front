@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Products from "./Products";
-import TestStorage from "./TestStorage";
 
 function Login(props) {
   const [isSubmit, setIsSubmit] = useState(false);
@@ -38,7 +36,6 @@ function Login(props) {
 
   return (
     <div className="container">
-      <TestStorage />
       <form
         className="form-margin"
         onSubmit={(event) => {
@@ -66,7 +63,7 @@ function Login(props) {
             Password
           </label>
           <input
-            type="text"
+            type="password"
             className="form-control"
             id="password"
             name="password"

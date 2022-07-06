@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Product from "./Product";
 import AddProduct from "./AddProduct";
 import NavBar from "./NavBar";
-import TestStorage from "./TestStorage";
 
 function Products(props) {
   const [products, setProducts] = useState([]);
@@ -36,7 +35,6 @@ function Products(props) {
 
   return (
     <>
-      <TestStorage />
       <NavBar
         isAdmin={props.isAdmin}
         setNbItem={props.setNbItem}

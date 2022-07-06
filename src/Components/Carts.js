@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Product from "./Product";
 import AddProduct from "./AddProduct";
 import NavBar from "./NavBar";
-import TestStorage from "./TestStorage";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 
@@ -54,7 +53,6 @@ function Carts(props) {
 
   return (
     <>
-      <TestStorage />
       <NavBar
         isAdmin={props.isAdmin}
         setNbItem={props.setNbItem}

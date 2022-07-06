@@ -1,13 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
-import TestStorage from "./TestStorage";
 
 function Ordered(props) {
   const navigate = useNavigate();
   return (
     <>
-      <TestStorage />
       <NavBar
         isAdmin={props.isAdmin}
         setNbItem={props.setNbItem}
