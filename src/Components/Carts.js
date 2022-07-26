@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Product from "./Product";
-import AddProduct from "./AddProduct";
 import NavBar from "./NavBar";
 import { useNavigate } from "react-router-dom";
-import Cookies from "universal-cookie";
 
 function Carts(props) {
   const [products, setProducts] = useState([]);
+  const [priceTotal, setPriceTotal] = useState(0);
   const [basket, setBaskets] = useState({});
   const [isOrder, setIsOrder] = useState(false);
   const navigate = useNavigate();
@@ -33,22 +32,33 @@ function Carts(props) {
       })
       .then((res) => {
         setBaskets(res);
+        let priceTotal = products
+          .map((produit) => {
+            return {
+              ...produit,
+              quantity: res[produit.id] === undefined ? 0 : res[produit.id],
+            };
+          })
+          .reduce(
+            (priceTotal, produit) =>
+              priceTotal + produit.price * produit.quantity,
+            0
+          );
+        setPriceTotal(priceTotal);
       });
-  }, []);
-
-  function addProductToList(productToAdd) {
-    setProducts([productToAdd, ...products]);
-  }
+  }, [products]);
 
   //Save basket
   useEffect(() => {
-    fetch("http://localhost:3001/save-order", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    });
+    if (isOrder) {
+      fetch("http://localhost:3001/save-order", {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      }).then(navigate("/Ordered"));
+    }
   }, [isOrder]);
 
   return (
@@ -57,19 +67,24 @@ function Carts(props) {
         isAdmin={props.isAdmin}
         setNbItem={props.setNbItem}
         nbItem={props.nbItem}
+        isCartDisplay={false}
       />
-      <div className="button-order">
-        <button
-          type="button"
-          className="btn btn-success btn-lg button-margin"
-          onClick={() => {
-            props.setNbItem(0);
-            setIsOrder(true);
-            navigate("/Ordered");
-          }}
-        >
-          Passer la commande
-        </button>
+      <div className="row">
+        <div className="col align-self-center total-purchase purchase">
+          Total des achats: {priceTotal} €
+        </div>
+        <div className="col align-self-center button-order purchase">
+          <button
+            type="button"
+            className="btn btn-success btn-lg button-margin"
+            onClick={() => {
+              props.setNbItem(0);
+              setIsOrder(!isOrder);
+            }}
+          >
+            Passer la commande
+          </button>
+        </div>
       </div>
       {products.map((livre) => {
         return (

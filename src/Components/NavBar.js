@@ -25,7 +25,7 @@ function NavBar(props) {
   }, [clickOnCart]);
 
   //Save basket
-  useEffect(() => {
+  /*useEffect(() => {
     fetch("http://localhost:3001/save-order", {
       headers: {
         Accept: "application/json",
@@ -33,16 +33,15 @@ function NavBar(props) {
       },
       method: "POST",
     });
-  }, [isOrder]);
+  }, [isOrder]);*/
 
   const isAccessStorage = sessionStorage.getItem("isAccess");
-  const isAdminStorage = sessionStorage.getItem("isAdmin");
 
   return (
     <>
-      <div class="row nav-bar-style">
+      <div className="row nav-bar-style">
         {isAccessStorage && (
-          <div class="col nav-bar-power">
+          <div className="col nav-bar-power">
             <button
               className="btn btn-lg button-margin"
               onClick={() => {
@@ -55,8 +54,8 @@ function NavBar(props) {
             </button>
           </div>
         )}
-        <div class="col nav-bar-cart">
-          {props.isAdmin === false && (
+        <div className="col nav-bar-cart">
+          {props.isAdmin === false && props.isCartDisplay === true && (
             <button
               className="btn btn-lg btn-primary button-margin"
               onClick={() => {

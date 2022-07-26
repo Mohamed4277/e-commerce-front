@@ -110,3 +110,17 @@ body {
   text-align: center;
   margin-top: 10px;
 }
+
+.total-purchase {
+  color: red;
+  font-weight: bold;
+  font-size: 36px;
+}
+
+.purchase {
+  margin: 23px !important;
+}
+
+.price-format {
+  width: 30px;
+}

@@ -27,8 +27,6 @@ function Products(props) {
     setProducts(x);
   }
 
-  /*function updateProductFromList(IdproductToRemove) {}*/
-
   function addProductToList(productToAdd) {
     setProducts([productToAdd, ...products]);
   }
@@ -39,6 +37,7 @@ function Products(props) {
         isAdmin={props.isAdmin}
         setNbItem={props.setNbItem}
         nbItem={props.nbItem}
+        isCartDisplay={true}
       />
       {props.isAdmin && (
         <AddProduct

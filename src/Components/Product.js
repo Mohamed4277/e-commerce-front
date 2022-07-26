@@ -19,8 +19,6 @@ function Product(props) {
     id: props.id,
   });
 
-  const isAdminStorage = sessionStorage.getItem("isAdmin");
-
   //Get Image from folder
   function importAll(r) {
     let images = {};
@@ -124,7 +122,7 @@ function Product(props) {
           <div className="card-body text-margin">
             <h5 className="card-title">
               <input
-                readonly={!props.isAdmin}
+                readOnly={!props.isAdmin}
                 type="text"
                 className="col-6 input-without-border"
                 id="name"
@@ -141,12 +139,12 @@ function Product(props) {
             <p className="card-text">
               {
                 <input
-                  readonly={!props.isAdmin}
+                  readOnly={!props.isAdmin}
                   type="text"
                   className="col-6 input-without-border"
                   id="description"
                   name="description"
-                  value={props.description}
+                  value={productToUpdate.description}
                   onChange={(event) => {
                     setProductToUpdate({
                       ...productToUpdate,
@@ -158,12 +156,12 @@ function Product(props) {
             </p>
             <p className="card-text">
               <input
-                readonly={!props.isAdmin}
+                readOnly={!props.isAdmin}
                 type="text"
-                className="col-6 input-without-border"
+                className="price-format input-without-border"
                 id="price"
                 name="price"
-                value={`${props.price} €`}
+                value={productToUpdate.price}
                 onChange={(event) => {
                   setProductToUpdate({
                     ...productToUpdate,
@@ -171,6 +169,7 @@ function Product(props) {
                   });
                 }}
               />
+              €
             </p>
           </div>
           <div className="card-body text-margin">
@@ -191,7 +190,7 @@ function Product(props) {
               <>
                 <input
                   hidden
-                  readonly
+                  readOnly
                   type="text"
                   className="form-control col-6"
                   id="id"
@@ -224,8 +223,8 @@ function Product(props) {
               </>
             )}
             {!props.isAdmin && props.clickOnCart && (
-              <div class="row">
-                <div class="col-4">
+              <div className="row">
+                <div className="col-4">
                   <button
                     type="button"
                     className="btn btn btn-danger btn-lg button-margin"
@@ -237,7 +236,7 @@ function Product(props) {
                     Supprimer du panier
                   </button>
                 </div>
-                <div class="col-2 nb-of-product">
+                <div className="col-2 nb-of-product">
                   <input
                     className="form-control"
                     id="nbOfProduct"

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function Register(props) {
+function Register() {
   const [isSubmit, setIsSubmit] = useState(false);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -29,8 +29,7 @@ function Register(props) {
           return response.json();
         })
         .then((res) => {
-          props.setIsAccess(res.isAccess);
-          props.setIsAdmin(res.isAdmin);
+          navigate("/");
         });
     }
   }, [isSubmit]);
@@ -46,7 +45,6 @@ function Register(props) {
           setPassword(event.target.password.value);
           setFamilyName(event.target.familyName.value);
           setIsSubmit(true);
-          /*navigate("/");*/
         }}
       >
         <div className="form-group text-margin">
@@ -97,13 +95,12 @@ function Register(props) {
             placeholder="Password"
           />
         </div>
-        <div className="form-group text-margin"></div>
-
-        <input type="submit" id="button" name="Test" />
-
-        {/* <button type="submit" className="btn btn-success btn-lg button-margin">
-          Sign up
-        </button> */}
+        <button
+          type="submit"
+          className="btn btn btn-danger btn-lg button-margin"
+        >
+          Register
+        </button>
       </form>
     </div>
   );
